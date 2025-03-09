@@ -14,7 +14,45 @@ public class PlayerTest {
         int initialHealthPoints = hunter.health();
         // THEN
         assertThat(initialHealthPoints).isEqualTo(100);
+    }
 
+    @Test
+    public void ShouldBeAlive(){
+        // GIVEN
+        Player hunter = new Player();
+        // WHEN
+        boolean isAlive = hunter.isAlive();
+        // THEN
+        assertThat(isAlive).isEqualTo(true);
+    }
+
+    @Test
+    public void ShouldBeDead(){
+        // GIVEN
+        Player hunter = new Player();
+        Player prey = new Player();
+        // WHEN
+        for (int i = 0; i < 10; i++){
+            hunter.hit(prey);
+        }
+        boolean isAlive = prey.isAlive();
+        // THEN
+        assertThat(isAlive).isEqualTo(false);
+    }
+
+    @Test
+    public void ShouldReceiveDamage(){
+        // GIVEN
+        Player hunter = new Player();
+        Player prey = new Player();
+        int numberOfHit = (int) Math.random()*11;
+        // WHEN
+        for (int i = 0; i < numberOfHit; i++){
+            hunter.hit(prey);
+        }
+        int healthPoints = prey.health();
+        // THEN
+        assertThat(healthPoints).isEqualTo(100-10*numberOfHit);
     }
 }
 
