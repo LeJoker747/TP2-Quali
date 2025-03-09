@@ -54,6 +54,37 @@ public class PlayerTest {
         // THEN
         assertThat(healthPoints).isEqualTo(100-10*numberOfHit);
     }
+
+    @Test
+    public void ShouldNotHeal(){
+        // GIVEN
+        Player hunter = new Player();
+        Player prey = new Player();
+        // WHEN
+        for (int i = 0; i < 10; i++){
+            hunter.hit(prey);
+        }
+        prey.heal();
+        int healthPoints = prey.health();
+        // THEN
+        assertThat(healthPoints).isEqualTo(0);
+    }
+
+    @Test
+    public void ShouldHeal(){
+        // GIVEN
+        Player hunter = new Player();
+        Player prey = new Player();
+        int numberOfHit = (int) Math.random()*10;
+        // WHEN
+        for (int i = 0; i < numberOfHit; i++){
+            hunter.hit(prey);
+        }
+        prey.heal();
+        int healthPoints = prey.health();
+        // THEN
+        assertThat(healthPoints).isEqualTo(100-numberOfHit*10+10);
+    }
 }
 
 

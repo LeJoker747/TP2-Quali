@@ -21,5 +21,11 @@ class Player {
             opponent.health -= 10;
         }
     }
+
+    public void heal(){
+        if (this.isAlive()){
+            this.health += 10;
+        }
+    }
 }
 
