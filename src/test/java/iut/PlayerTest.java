@@ -32,6 +32,8 @@ public class PlayerTest {
         Player hunter = new Player();
         Player prey = new Player();
         // WHEN
+        hunter.move(-hunter.getPlace());
+        hunter.move(prey.getPlace());
         for (int i = 0; i < 10; i++){
             hunter.hit(prey);
         }
@@ -45,8 +47,10 @@ public class PlayerTest {
         // GIVEN
         Player hunter = new Player();
         Player prey = new Player();
-        int numberOfHit = (int) Math.random()*11;
+        int numberOfHit = (int) (Math.random()*11);       
         // WHEN
+        hunter.move(-hunter.getPlace());
+        hunter.move(prey.getPlace()); 
         for (int i = 0; i < numberOfHit; i++){
             hunter.hit(prey);
         }
@@ -61,6 +65,8 @@ public class PlayerTest {
         Player hunter = new Player();
         Player prey = new Player();
         // WHEN
+        hunter.move(-hunter.getPlace());
+        hunter.move(prey.getPlace()); 
         for (int i = 0; i < 10; i++){
             hunter.hit(prey);
         }
@@ -75,8 +81,10 @@ public class PlayerTest {
         // GIVEN
         Player hunter = new Player();
         Player prey = new Player();
-        int numberOfHit = (int) Math.random()*10;
+        int numberOfHit = (int) (Math.random()*10);
         // WHEN
+        hunter.move(-hunter.getPlace());
+        hunter.move(prey.getPlace()); 
         for (int i = 0; i < numberOfHit; i++){
             hunter.hit(prey);
         }
@@ -174,6 +182,8 @@ public class PlayerTest {
         Faction faction = new Faction("faction1");
         Faction faction2 = new Faction("faction2");
         // WHEN 
+        hunter.move(-hunter.getPlace());
+        hunter.move(prey.getPlace()); 
         hunter.joinFaction(faction);
         prey.joinFaction(faction2);
         hunter.hit(prey);
@@ -189,6 +199,8 @@ public class PlayerTest {
         Player prey = new Player();
         Faction faction = new Faction("faction1");
         // WHEN 
+        hunter.move(-hunter.getPlace());
+        hunter.move(prey.getPlace()); 
         hunter.joinFaction(faction);
         prey.joinFaction(faction);
         hunter.hit(prey);
@@ -205,6 +217,8 @@ public class PlayerTest {
         Player damagePlayer = new Player();
         Faction faction = new Faction("faction1");
         // WHEN 
+        damagePlayer.move(-damagePlayer.getPlace());
+        damagePlayer.move(prey.getPlace()); 
         hunter.joinFaction(faction);
         prey.joinFaction(faction);
         damagePlayer.hit(prey);
@@ -213,6 +227,60 @@ public class PlayerTest {
         int healthPoints = prey.health();
         // THEN
         assertThat(healthPoints).isEqualTo(90);
+    }
+
+    @Test
+    public void ShouldBeInRangeMelee(){
+        // GIVEN
+        Player hunter = new Player();
+        Player prey = new Player();       
+        // WHEN
+        hunter.move(-hunter.getPlace());
+        hunter.move(prey.getPlace()); 
+        hunter.hit(prey);
+        int healthPoints = prey.health();
+        // THEN
+        assertThat(healthPoints).isEqualTo(90);
+    }
+
+    @Test
+    public void ShouldNotBeInRangeMelee(){
+        // GIVEN
+        Player hunter = new Player();
+        Player prey = new Player();       
+        // WHEN
+        hunter.move(50);
+        hunter.hit(prey);
+        int healthPoints = prey.health();
+        // THEN
+        assertThat(healthPoints).isEqualTo(100);
+    }
+
+    @Test
+    public void ShouldBeInRangeRanged(){
+        // GIVEN
+        Player hunter = new Player();
+        Player prey = new Player();       
+        // WHEN
+        hunter.setFighterType(FighterType.RANGED);
+        hunter.hit(prey);
+        int healthPoints = prey.health();
+        // THEN
+        assertThat(healthPoints).isEqualTo(90);
+    }
+
+    @Test
+    public void ShouldNotBeInRangeRanged(){
+        // GIVEN
+        Player hunter = new Player();
+        Player prey = new Player();       
+        // WHEN
+        hunter.setFighterType(FighterType.RANGED);
+        hunter.move(50);
+        hunter.hit(prey);
+        int healthPoints = prey.health();
+        // THEN
+        assertThat(healthPoints).isEqualTo(100);
     }
 }
 

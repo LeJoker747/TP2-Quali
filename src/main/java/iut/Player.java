@@ -1,12 +1,18 @@
 package iut;
 
+
+
 class Player {
     private int health;
     private Faction faction; 
+    private FighterType fighterType;
+    private int place;
 
     Player(){
         this.health = 100;
         this.faction = null;
+        this.fighterType = FighterType.MELEE;
+        this.place = (int)(Math.random()*11);
     }
 
     public int health(){return this.health;}
@@ -20,7 +26,11 @@ class Player {
 
     public void hit(Player opponent){
         if (opponent.isAlive() && !this.isAlly(opponent)){
-            opponent.health -= 10;
+            if (this.getFighterType() == FighterType.MELEE && this.getDistance(opponent) <= 2){
+                opponent.health -= 10;
+            } else if  (this.getFighterType() == FighterType.RANGED && this.getDistance(opponent) <= 20) {
+                opponent.health -= 10;
+            }
         }
     }
 
@@ -37,7 +47,7 @@ class Player {
     }
 
     public boolean isAlly(Player opponent){
-        if (opponent.getFaction() == (this.getFaction())){
+        if (this.getFaction() != null && opponent.getFaction() == (this.getFaction())){
             return true;
         }
         return false;
@@ -54,5 +64,17 @@ class Player {
     public void leaveFaction(){
         this.faction = null;
     }
+
+    public void setFighterType (FighterType fighterType){
+        this.fighterType = fighterType;
+    }
+
+    public FighterType getFighterType(){return this.fighterType;}
+
+    public int getPlace(){return this.place;}
+
+    public int getDistance(Player opponent){return Math.abs(this.getPlace()-opponent.getPlace());}
+
+    public void move(int movement){this.place += movement;}
 }
 
